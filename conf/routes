@@ -1,0 +1,5 @@
+# Routes
+# ~~~~
+
+POST       /upload                   controllers.UploadController.upload(request: Request)
+GET        /download/:uuid           controllers.UploadController.download(uuid: String)
