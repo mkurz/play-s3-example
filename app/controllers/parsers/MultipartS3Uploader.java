@@ -2,7 +2,6 @@ package controllers.parsers;
 
 import java.util.UUID;
 import java.util.concurrent.CompletionStage;
-import java.util.concurrent.Executor;
 import java.util.function.Function;
 import javax.inject.Inject;
 
@@ -19,17 +18,14 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 
-import akka.Done;
 import akka.actor.ActorSystem;
 import akka.util.ByteString;
 import akka.stream.Materializer;
 import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Flow;
-import akka.http.javadsl.model.ContentType;
 import akka.http.javadsl.model.ContentTypes;
 
 import akka.stream.alpakka.s3.S3Ext;
-import akka.stream.alpakka.s3.ObjectMetadata;
 import akka.stream.alpakka.s3.S3Attributes;
 import akka.stream.alpakka.s3.S3Settings;
 import akka.stream.alpakka.s3.MultipartUploadResult;
@@ -44,7 +40,6 @@ import static controllers.parsers.ByteLimiter.MaxSizeExceeded;
 public class MultipartS3Uploader extends BodyParser.DelegatingMultipartFormDataBodyParser<String> {
 
     private final ActorSystem system;
-    private final Materializer materializer;
     private final HttpExecutionContext ec;
 
     private final long maxLength;
@@ -54,7 +49,6 @@ public class MultipartS3Uploader extends BodyParser.DelegatingMultipartFormDataB
         super(materializer, config.parser().maxMemoryBuffer(), errorHandler);
 
         this.system = system;
-        this.materializer = materializer;
         this.ec = ec;
 
         this.maxLength = config.parser().maxDiskBuffer();
