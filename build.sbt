@@ -4,6 +4,7 @@ organization := "com.example"
 version := "1.0-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
+    //.enablePlugins(PlayNettyServer).disablePlugins(PlayAkkaHttpServer)
 
 scalaVersion := "2.13.6"
 
